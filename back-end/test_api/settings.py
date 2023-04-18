@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'instituicao_y.apps.InstituicaoYConfig',
+    # escreva o que for necessário abaixo
     'instituicao_x.apps.InstituicaoXConfig'
 ]
 
