@@ -14,7 +14,7 @@ class AlunoView(viewsets.ModelViewSet):
 
 # Escreva o necessário abaixo
 
-    @action(detail=False)
+    @action(detail=False, methods=['get'])
     def recuperar_aluno(self, request, pk=None):
         cpf = request.query_params.get('cpf')
         if not cpf:
