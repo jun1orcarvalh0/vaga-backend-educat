@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
 
+from instituicao_y.models import Aluno as Aluno_instituicao_y
 from .models import Aluno, Status, Disciplina, InstituicaoX
 from .serializers import AlunoSerializer, StatusSerializer, DisciplinaSerializer, InstituicaoXSerializer
 
@@ -33,6 +34,13 @@ class AlunoView(viewsets.ModelViewSet):
         serializer = self.get_serializer(find_user, many=True)
 
         return Response(serializer.data)
+
+    @action(detail=False, methods=['post'])
+    def transferencia_aluno(self, request, pk=None):
+        find_user = Aluno_instituicao_y.objects.filter(cpf=request.data['cpf'])
+        serializer = self.get_serializer(find_user, many=True)
+        print(serializer.data)
+        return Response(request.data)
 
 
 class StatusView(viewsets.ModelViewSet):
