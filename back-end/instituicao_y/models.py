@@ -28,7 +28,7 @@ class InstituicaoY(models.Model):
     nome = models.CharField(max_length=200)
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE)
     ano_letivo = models.IntegerField()
-    semetre = models.IntegerField()
+    semestre = models.IntegerField()
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
     carga_horaria = models.IntegerField()
     frequencia = models.IntegerField()
