@@ -3,8 +3,8 @@ from django.db import models
 
 class Aluno(models.Model):
     nome = models.CharField(max_length=50)
-    cpf = models.CharField(max_length=11)
-    email = models.CharField(max_length=100, null=True, blank=True)
+    cpf = models.CharField(max_length=11, unique=True)
+    email = models.CharField(max_length=100, null=True, blank=True, unique=True)
 
     def __str__(self):
         return f'{self.nome} - {self.cpf}'
