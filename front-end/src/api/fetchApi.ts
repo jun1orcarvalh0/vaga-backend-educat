@@ -11,13 +11,12 @@ export const api = axios.create({
 
 export const validateStudent = async ({ cpf }: { cpf: string }) => {
   try {
-    console.log(cpf);
     const result = await api.get('/instituicao-y/alunos/recuperar_aluno', {
       params: { cpf }
     });
     console.log(result);
     return result.data;
   } catch (error: any) {
-    console.log(error.message);
+    return error.toJSON();
   }
 };
