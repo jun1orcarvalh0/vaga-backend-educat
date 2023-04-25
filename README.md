@@ -19,7 +19,19 @@ Olá candidato, nesse teste será esperado os seguintes critérios de aceitaçã
 
 * Para rodar o projeto, as dependências estão especificados no `requirements.txt`
 
-* Para utiliza-los utilize `$ pip insall -r requirements.txt`, as dependências serão instaladas.
+* Para utiliza-los utilize `$ pip install -r requirements.txt`, as dependências serão instaladas.
+
+# Para rodar o Front-End:
+
+* Certifique-se de estar na pasta 'front-end'
+
+* Para instalar as depêndencias utilize `$ npm install`
+
+* Para rodar o projeto `$ npm run dev`
+
+* O front-end rodará na porta 3000
+
+* Tenha certeza que a porta 3000 não está alocada, pois o back-end espera que a requisição seja feita através dessa porta.
 
 
 # Contexto:
