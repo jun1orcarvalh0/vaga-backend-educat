@@ -1,10 +1,11 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework import status
 
-from instituicao_y.models import Aluno as Aluno_instituicao_y
+from instituicao_y.models import InstituicaoY, Aluno as AlunoY
+from instituicao_y.serializers import AlunoSerializer as AlunoYSerializer, InstituicaoYSerializer
 from .models import Aluno, Status, Disciplina, InstituicaoX
 from .serializers import AlunoSerializer, StatusSerializer, DisciplinaSerializer, InstituicaoXSerializer
 
@@ -37,10 +38,33 @@ class AlunoView(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def transferencia_aluno(self, request, pk=None):
-        find_user = Aluno_instituicao_y.objects.filter(cpf=request.data['cpf'])
-        serializer = self.get_serializer(find_user, many=True)
-        print(serializer.data)
-        return Response(request.data)
+
+        new_student_serializer = AlunoSerializer(data=request.data)
+
+        if new_student_serializer.is_valid():
+            new_student_serializer.save()
+
+            student_instituicao_y = AlunoYSerializer(
+                AlunoY.objects.get(cpf=request.data["cpf"]))
+
+            instituicao_y = InstituicaoYSerializer(
+                InstituicaoY.objects.filter(
+                    aluno_id=student_instituicao_y.data["id"]), many=True)
+
+            for disciplina in instituicao_y.data:
+
+                disciplina_dict = dict(disciplina)
+
+                find_disciplina_in_instituicao_x = DisciplinaSerializer(
+                    Disciplina.objects.get(id=disciplina_dict["id"]))
+
+                print(find_disciplina_in_instituicao_x.data)
+
+            return Response('Transferência realizada com sucesso',
+                            status=status.HTTP_201_CREATED)
+
+        return Response(
+            new_student_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class StatusView(viewsets.ModelViewSet):
