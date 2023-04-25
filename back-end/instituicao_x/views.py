@@ -47,18 +47,174 @@ class AlunoView(viewsets.ModelViewSet):
             student_instituicao_y = AlunoYSerializer(
                 AlunoY.objects.get(cpf=request.data["cpf"]))
 
+            student_instituicao_x = AlunoSerializer(
+                Aluno.objects.get(cpf=request.data["cpf"]))
+
             instituicao_y = InstituicaoYSerializer(
                 InstituicaoY.objects.filter(
                     aluno_id=student_instituicao_y.data["id"]), many=True)
 
-            for disciplina in instituicao_y.data:
+            # student_subjects_transfer = []
 
-                disciplina_dict = dict(disciplina)
+            for disciplina_y in instituicao_y.data:
+
+                disciplina_y_dict = dict(disciplina_y)
 
                 find_disciplina_in_instituicao_x = DisciplinaSerializer(
-                    Disciplina.objects.get(id=disciplina_dict["id"]))
+                        Disciplina.objects.get(id=disciplina_y_dict["id"]))
 
-                print(find_disciplina_in_instituicao_x.data)
+                if (find_disciplina_in_instituicao_x and disciplina_y_dict["id"] == 1):
+
+                    exigencias = {"carga_horaria": 20,"frequencia_minima": 18}
+
+                    if (disciplina_y_dict["carga_horaria"] >= exigencias["carga_horaria"] and disciplina_y_dict["frequencia"] >= exigencias["frequencia_minima"]):
+                        student_subject_transfer = InstituicaoX(
+                                nome="Instituicao X",
+                                ano_letivo=disciplina_y_dict["ano_letivo"],
+                                semestre=disciplina_y_dict["semestre"],
+                                carga_horaria=exigencias["carga_horaria"],
+                                frequencia_minima=exigencias["frequencia_minima"],
+                                aluno_id=student_instituicao_x.data["id"],
+                                disciplina_id=disciplina_y_dict["id"],
+                                status_id=1
+                        )
+                        student_subject_transfer.save()
+                        # student_subjects_transfer.append(result)
+                    else:
+                        print('disciplina1 a cursar')
+
+                elif (find_disciplina_in_instituicao_x and disciplina_y_dict["id"] == 2):
+
+                    exigencias = {"carga_horaria": 16,"frequencia_minima": 11}
+
+                    if (disciplina_y_dict["carga_horaria"] >= exigencias["carga_horaria"] and disciplina_y_dict["frequencia"] >= exigencias["frequencia_minima"]):
+                        print('aprovado')
+                    else:
+                        student_subject_transfer = InstituicaoX(
+                                nome="Instituicao X",
+                                ano_letivo=disciplina_y_dict["ano_letivo"],
+                                semestre=disciplina_y_dict["semestre"],
+                                carga_horaria=exigencias["carga_horaria"],
+                                frequencia_minima=exigencias["frequencia_minima"],
+                                aluno_id=student_instituicao_x.data["id"],
+                                disciplina_id=disciplina_y_dict["id"],
+                                status_id=1
+                        )
+                        student_subject_transfer.save()
+                        # student_subjects_transfer.append(result)
+
+                elif (find_disciplina_in_instituicao_x and disciplina_y_dict["id"] == 3):
+
+                    exigencias = {"carga_horaria": 11, "frequencia_minima": 11}
+
+                    if (disciplina_y_dict["carga_horaria"] >= exigencias["carga_horaria"]):
+                        student_subject_transfer = InstituicaoX(
+                                nome="Instituicao X",
+                                ano_letivo=disciplina_y_dict["ano_letivo"],
+                                semestre=disciplina_y_dict["semestre"],
+                                carga_horaria=exigencias["carga_horaria"],
+                                frequencia_minima=exigencias["frequencia_minima"],
+                                aluno_id=student_instituicao_x.data["id"],
+                                disciplina_id=disciplina_y_dict["id"],
+                                status_id=4
+                        )
+                        student_subject_transfer.save()
+                        # student_subjects_transfer.append(result)
+
+                elif (find_disciplina_in_instituicao_x and disciplina_y_dict["id"] == 4):
+
+                    exigencias = {"carga_horaria": 15, "frequencia_minima": 10}
+
+                    if (disciplina_y_dict["carga_horaria"] >= exigencias["carga_horaria"]):
+                        student_subject_transfer = InstituicaoX(
+                                nome="Instituicao X",
+                                ano_letivo=disciplina_y_dict["ano_letivo"],
+                                semestre=disciplina_y_dict["semestre"],
+                                carga_horaria=exigencias["carga_horaria"],
+                                frequencia_minima=exigencias["frequencia_minima"],
+                                aluno_id=student_instituicao_x.data["id"],
+                                disciplina_id=disciplina_y_dict["id"],
+                                status_id=4
+                        )
+                        student_subject_transfer.save()
+                        # student_subjects_transfer.append(result)
+
+                elif (find_disciplina_in_instituicao_x and disciplina_y_dict["id"] == 5):
+
+                    exigencias = {"carga_horaria": 16, "frequencia_minima": 11}
+
+                    if (disciplina_y_dict["carga_horaria"] >= exigencias["carga_horaria"]):
+                        student_subject_transfer = InstituicaoX(
+                                nome="Instituicao X",
+                                ano_letivo=disciplina_y_dict["ano_letivo"],
+                                semestre=disciplina_y_dict["semestre"],
+                                carga_horaria=exigencias["carga_horaria"],
+                                frequencia_minima=exigencias["frequencia_minima"],
+                                aluno_id=student_instituicao_x.data["id"],
+                                disciplina_id=disciplina_y_dict["id"],
+                                status_id=4
+                        )
+                        student_subject_transfer.save()
+                        # student_subjects_transfer.append(result)
+
+                elif (find_disciplina_in_instituicao_x and disciplina_y_dict["id"] == 6):
+
+                    exigencias = {"carga_horaria": 18,"frequencia_minima": 18}
+
+                    if (disciplina_y_dict["carga_horaria"] >= exigencias["carga_horaria"] and disciplina_y_dict["frequencia"] >= exigencias["frequencia_minima"]):
+                        student_subject_transfer = InstituicaoX(
+                                nome="Instituicao X",
+                                ano_letivo=disciplina_y_dict["ano_letivo"],
+                                semestre=disciplina_y_dict["semestre"],
+                                carga_horaria=exigencias["carga_horaria"],
+                                frequencia_minima=exigencias["frequencia_minima"],
+                                aluno_id=student_instituicao_x.data["id"],
+                                disciplina_id=disciplina_y_dict["id"],
+                                status_id=1
+                        )
+                        student_subject_transfer.save()
+                    else:
+                        print('disciplina6 a cursar')
+             
+                elif (find_disciplina_in_instituicao_x and disciplina_y_dict["id"] == 7):
+
+                    exigencias = {"carga_horaria": 17, "frequencia_minima": 16}
+
+                    if (disciplina_y_dict["carga_horaria"] >= exigencias["carga_horaria"]):
+                        print('disciplina7 cursando')
+                    else:
+                        student_subject_transfer = InstituicaoX(
+                                nome="Instituicao X",
+                                ano_letivo=disciplina_y_dict["ano_letivo"],
+                                semestre=disciplina_y_dict["semestre"],
+                                carga_horaria=exigencias["carga_horaria"],
+                                frequencia_minima=exigencias["frequencia_minima"],
+                                aluno_id=student_instituicao_x.data["id"],
+                                disciplina_id=disciplina_y_dict["id"],
+                                status_id=4
+                        )
+                        student_subject_transfer.save()
+                        # student_subjects_transfer.append(result)
+
+                elif (find_disciplina_in_instituicao_x and disciplina_y_dict["id"] == 8):
+
+                    exigencias = {"carga_horaria": 8, "frequencia_minima": 5}
+
+                    if (disciplina_y_dict["carga_horaria"] >= exigencias["carga_horaria"]):
+                        student_subject_transfer = InstituicaoX(
+                                nome="Instituicao X",
+                                ano_letivo=disciplina_y_dict["ano_letivo"],
+                                semestre=disciplina_y_dict["semestre"],
+                                carga_horaria=exigencias["carga_horaria"],
+                                frequencia_minima=exigencias["frequencia_minima"],
+                                aluno_id=student_instituicao_x.data["id"],
+                                disciplina_id=disciplina_y_dict["id"],
+                                status_id=3
+                        )
+                        student_subject_transfer.save()
+                        # student_subjects_transfer.append(result)
+                    else:
+                        print('disciplina8 a cursar')
 
             return Response('Transferência realizada com sucesso',
                             status=status.HTTP_201_CREATED)
