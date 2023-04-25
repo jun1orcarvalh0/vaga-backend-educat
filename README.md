@@ -57,3 +57,7 @@ OBS: Dispensa de disciplina refere-se ao aproveitamento dos estudos realizados e
 http://localhost:8000/instituicao-y/alunos
 
 http://localhost:8000/admin
+
+# Considerações:
+* Como não foi especificado como eu deveria fazer a validação do vínculo ativo, alterei os campos já implementados para que não fosse possível criar um novo usuário com cpf e/ou email já existentes na tabela de Alunos da Instituicao_X e Instituicao_Y.
+* Com relação a transfêrencia de um aluno, alguns pontos não ficaram muito nítidos para mim com relação as regras de negócio. Mas seguindo a minha interpretação do problema, estabeleci como Carga Horária equivalente aquela que na instituicao_y fosse maior ou igual a Carga Horária exigida em instituicao_x. E a partir disso, todas as disciplinas já aprovadas que tivesse uma Carga Horária exigida em y menor que em x, deveriam mudar seu status para "a cursar".
