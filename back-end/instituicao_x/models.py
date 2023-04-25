@@ -31,7 +31,7 @@ class InstituicaoX(models.Model):
     semestre = models.IntegerField()
     disciplina = models.ForeignKey(Disciplina, on_delete=models.CASCADE)
     carga_horaria = models.IntegerField()
-    frequencia = models.IntegerField()
+    frequencia_minima = models.IntegerField()
     status = models.ForeignKey(Status, on_delete=models.CASCADE, null=True)
 
     class Meta:
