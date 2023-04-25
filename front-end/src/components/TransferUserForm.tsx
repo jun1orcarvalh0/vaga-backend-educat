@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { validateStudent } from 'api/fetchApi';
+import { validateStudent, transferStudent } from 'api/fetchApi';
 import { z } from 'zod';
 
 type Student = {
@@ -23,6 +23,7 @@ type FormProps = z.infer<typeof schema>;
 export default function TransferUserForm() {
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors, isValid }
   } = useForm<FormProps>({
@@ -33,29 +34,50 @@ export default function TransferUserForm() {
 
   const [student, setStudent] = useState({} as Student);
 
-  const [errorMessage, setErrorMessage] = useState({
+  const [VerifyStudentErrorMessage, setVerifyStudentErrorMessage] = useState({
     isError: false,
     message: ''
   });
+
+  const [TransferStudentErrorMessage, setTransferStudentErrorMessage] =
+    useState({
+      isError: false,
+      message: ''
+    });
 
   console.log(errors.cpf);
 
   const handleValidateStudent = async (data: FormProps) => {
     const { cpf } = data;
+    setTransferStudentErrorMessage({ isError: false, message: '' });
     const result = await validateStudent({ cpf });
     if (result.message) {
       setStudent({ id: 0, nome: '', email: '', cpf: '' });
-      return setErrorMessage({
+      return setVerifyStudentErrorMessage({
         isError: true,
         message: 'Estudante não possui vínculo ativo!'
       });
     }
-    setErrorMessage({ isError: false, message: '' });
+    reset();
+    setVerifyStudentErrorMessage({ isError: false, message: '' });
     setStudent(result[0]);
   };
 
-  const handleTransferStudent = () => {
-    console.log(student);
+  const handleTransferStudent = async () => {
+    const result = await transferStudent({ ...student });
+    if (result.message) {
+      if (result.message) {
+        return setTransferStudentErrorMessage({
+          isError: true,
+          message: 'Algum erro aconteceu no processo!'
+        });
+      }
+    }
+    setTransferStudentErrorMessage({
+      isError: false,
+      message: 'Transferencia realizada com sucesso!'
+    });
+    setStudent({ id: 0, nome: '', email: '', cpf: '' });
   };
 
   return (
@@ -91,9 +113,9 @@ export default function TransferUserForm() {
               >
                 Verificar Aluno
               </button>
-              {errorMessage.isError && (
+              {VerifyStudentErrorMessage.isError && (
                 <span className="text-red-600 mt-3 w-full">
-                  {errorMessage.message}
+                  {VerifyStudentErrorMessage.message}
                 </span>
               )}
               {student.cpf && (
@@ -103,7 +125,7 @@ export default function TransferUserForm() {
               )}
             </div>
           </form>
-          <div className="flex flex-col mt-10">
+          <div className="flex flex-col mt-6">
             <button
               type="submit"
               className={
@@ -116,6 +138,16 @@ export default function TransferUserForm() {
             >
               Realizar transfêrencia
             </button>
+            {TransferStudentErrorMessage.isError && (
+              <span className="text-red-600 mt-3 w-full text-center">
+                {TransferStudentErrorMessage.message}
+              </span>
+            )}
+            {!TransferStudentErrorMessage.isError && (
+              <p className="text-gray-600 mt-3 w-full text-center">
+                {TransferStudentErrorMessage.message}
+              </p>
+            )}
           </div>
         </div>
       </div>

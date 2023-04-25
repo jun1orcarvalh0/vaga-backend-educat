@@ -20,3 +20,24 @@ export const validateStudent = async ({ cpf }: { cpf: string }) => {
     return error.toJSON();
   }
 };
+
+export const transferStudent = async ({
+  nome,
+  cpf,
+  email
+}: {
+  nome: string;
+  cpf: string;
+  email: string;
+}) => {
+  try {
+    const result = await api.post('/instituicao-x/alunos/transferencia_aluno', {
+      nome,
+      cpf,
+      email
+    });
+    return result.data;
+  } catch (error: any) {
+    return error.toJSON();
+  }
+};
